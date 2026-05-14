@@ -13,8 +13,22 @@
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response(JSON.stringify({ status: "online", service : "threat-pipeline"}), {
-			headers: { "Content-Type": "application/json" }
-		});
+		const url = new URL(request.url);
+		const path = url.pathname;
+		if (request.method === "GET" && path === "/events")
+			{ 
+				return new Response("TODO")
+			} 
+		else if (request.method  === "POST" && path === "/event") 
+			{ 
+				return new Response("TODO") 
+			} 
+		else 
+			{
+				return new Response(JSON.stringify({ status: "online", service : "threat-pipeline"}), {
+				headers: { "Content-Type": "application/json" }
+			});
+		
+		}
 	},
 } satisfies ExportedHandler<Env>;
