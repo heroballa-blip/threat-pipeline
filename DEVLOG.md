@@ -14,7 +14,7 @@
 - Confirmed all three routes return correct responses
 - Next: implement actual D1 read/write logic in both routes
 
-## Day 3 - 2026-05-16
+## Day 3 - 2026-05-15
 - Fixed TypeScript Env type with cf-typegen
 - Implemented POST /event — reads JSON body, inserts to D1 with prepared statement
 - Implemented GET /events — queries D1, returns all rows as JSON
