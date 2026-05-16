@@ -9,13 +9,13 @@ In Progress
 - Cloudflare Worker deployed at https://threat-pipeline.hballa.workers.dev
 - D1 database (threat-timeline) created and schema applied
 - Events table: id, timestamp, source, src_ip, user, event_type, raw, tags, flagged
-- GET /events and POST /event routing live (D1 read/write logic in progress)
+- POST /event — accepts JSON body, writes to D1 using prepared statements
+- GET /events — queries D1, returns full timeline as JSON
 - Health check at GET /
 
 ### Next Session
-- Implement D1 write logic in POST /event
-- Implement D1 read logic in GET /events
-- Begin normalizer function
+- Normalizer function — parse raw log lines into schema fields before storing
+- Python collector for Linux auth logs
 
 ## Architecture
 - **Ingestion:** Cloudflare Workers receive and normalize logs from multiple sources
