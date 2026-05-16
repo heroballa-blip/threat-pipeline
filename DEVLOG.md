@@ -13,3 +13,10 @@
 - Added GET /events and POST /event routing to Worker
 - Confirmed all three routes return correct responses
 - Next: implement actual D1 read/write logic in both routes
+
+## Day 3 - 2026-05-16
+- Fixed TypeScript Env type with cf-typegen
+- Implemented POST /event — reads JSON body, inserts to D1 with prepared statement
+- Implemented GET /events — queries D1, returns all rows as JSON
+- Verified end-to-end: POSTed test event, confirmed in D1 console, confirmed via GET
+- Next: normalizer function — accept raw log line, parse into schema fields
