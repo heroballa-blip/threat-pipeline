@@ -11,6 +11,9 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+//import { request } from "https";
+//import { env } from "process";
+
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		const url = new URL(request.url);
@@ -18,17 +21,33 @@ export default {
 		if (request.method === "GET" && path === "/events")
 			{ 
 				return new Response("TODO")
+				
+		
 			} 
 		else if (request.method  === "POST" && path === "/event") 
 			{ 
-				return new Response("TODO") 
+				//return new Response("TODO") 
+				const body = await request.json() as {
+					timestamp: string;
+					source: string;
+					src_ip: string;
+					user: string;
+					event_type: string;
+					raw: string;
+					tags: string;
+					flagged: number;
+				};
+				await env.DB.prepare("INSERT INTO events (timestamp, source, src_ip, user, event_type, raw, tags, flagged) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(body.timestamp, body.source, body.src_ip, body.user, body.event_type, body.raw, body.tags, body.flagged).run();
+				return new Response(JSON.stringify({ success: true }), {
+    			headers: { "Content-Type": "application/json" }
+			});	
 			} 
 		else 
 			{
 				return new Response(JSON.stringify({ status: "online", service : "threat-pipeline"}), {
 				headers: { "Content-Type": "application/json" }
 			});
-		
 		}
+		
 	},
 } satisfies ExportedHandler<Env>;

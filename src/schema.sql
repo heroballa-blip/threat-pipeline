@@ -9,3 +9,5 @@ Create table events (
     tags text,
     flagged integer
 )
+
+INSERT INTO events (timestamp, source, src_ip, user, event_type, raw, tags, flagged) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
