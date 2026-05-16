@@ -20,13 +20,15 @@ export default {
 		const path = url.pathname;
 		if (request.method === "GET" && path === "/events")
 			{ 
-				return new Response("TODO")
-				
+				//return new Response("TODO")
+				const result = await env.DB.prepare("SELECT * FROM events").all();
+				return new Response(JSON.stringify(result.results), {
+    			headers: { "Content-Type": "application/json" }
+});
 		
 			} 
 		else if (request.method  === "POST" && path === "/event") 
 			{ 
-				//return new Response("TODO") 
 				const body = await request.json() as {
 					timestamp: string;
 					source: string;
