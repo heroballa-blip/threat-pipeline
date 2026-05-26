@@ -13,6 +13,39 @@
 
 //import { request } from "https";
 //import { env } from "process";
+function normalize(raw: string,source: string): { timestamp: string; source: string; src_ip: string; user: string; event_type: string; raw: string; tags: string; flagged: number } {
+    // timestamp logic
+	const parts = raw.split(" ");
+	const timestamp = parts[0] + " " + parts[1] + " " + parts[2];
+	const forIndex = parts.indexOf("for");
+	const user = forIndex !== -1 ? parts[forIndex + 1] : null;
+	
+	// ip logic
+	const match = raw.match(/\d+\.\d+\.\d+\.\d+/);
+	const ip = match ? match[0] : null;
+
+	// event type logic
+	let event_type: string;
+	if (raw.includes("Failed password")) {
+    	event_type = "failed_login"
+	} else if (raw.includes("Accepted password")) {
+		event_type = "successful_login"
+	} else if (raw.includes("sudo")) {
+		event_type = "sudo_command"
+	} else {
+		event_type = "unknown"
+	}
+	return {
+		timestamp,
+		source,
+		src_ip: ip ?? "unknown",
+		user: user ?? "unknown",
+		event_type,
+		raw,
+		tags: "[]",
+		flagged: 0
+	};
+}
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
@@ -30,16 +63,11 @@ export default {
 		else if (request.method  === "POST" && path === "/event") 
 			{ 
 				const body = await request.json() as {
-					timestamp: string;
 					source: string;
-					src_ip: string;
-					user: string;
-					event_type: string;
-					raw: string;
-					tags: string;
-					flagged: number;
+					raw: string;				
 				};
-				await env.DB.prepare("INSERT INTO events (timestamp, source, src_ip, user, event_type, raw, tags, flagged) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(body.timestamp, body.source, body.src_ip, body.user, body.event_type, body.raw, body.tags, body.flagged).run();
+				const event = normalize(body.raw, body.source);
+				await env.DB.prepare("INSERT INTO events (timestamp, source, src_ip, user, event_type, raw, tags, flagged) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(event.timestamp, event.source, event.src_ip, event.user, event.event_type, event.raw, event.tags, event.flagged).run();
 				return new Response(JSON.stringify({ success: true }), {
     			headers: { "Content-Type": "application/json" }
 			});	
