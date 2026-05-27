@@ -28,4 +28,12 @@
 - Processed full Elastic auth.log dataset — 7121 events ingested (link: https://github.com/elastic/examples/blob/master/Machine%20Learning/Security%20Analytics%20Recipes/suspicious_login_activity/data/auth.log)
 - Timeline breakdown: 713 failed_login, 557 sudo_command, 190 successful_login, 5661 unknown
 - Normalizer correctly handles "invalid user" lines via fromIndex - 1
-- Next: Cloudflare WAF log collector
+
+## Day 5 — 2026-05-26
+- Created cloudflare_waf.py collector — reads JSON array, threads 10 workers
+- Created generate_mock_ddos.py — generates 5000 realistic WAF events with varied actions/rules
+- Added cloudflare_waf branch to normalize() — parses JSON, extracts ClientIP, Action, EdgeStartTimestamp
+- Added dst_ip, severity, metadata columns to schema via ALTER TABLE
+- Updated INSERT statement and normalize() return type for new columns
+- Unified timeline now has 12,121 events across linux_auth and cloudflare_waf sources
+- Next: Timeline query API with filters (Day 6)
