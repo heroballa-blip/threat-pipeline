@@ -13,7 +13,7 @@
 
 //import { request } from "https";
 //import { env } from "process";
-function normalize(raw: string,source: string): { timestamp: string; source: string; src_ip: string; user: string; event_type: string; raw: string; tags: string; flagged: number } {
+function normalize(raw: string,source: string): { timestamp: string; source: string; src_ip: string; dst_ip: string; user: string; event_type: string; severity: string; raw: string; tags: string; flagged: number; metadata: string } {
     // timestamp logic
 	const parts = raw.split(" ");
 	const timestamp = parts[0] + " " + parts[1] + " " + parts[2];
@@ -38,11 +38,14 @@ function normalize(raw: string,source: string): { timestamp: string; source: str
 		timestamp,
 		source,
 		src_ip: ip ?? "unknown",
+		dst_ip: "unknown",
 		user: user ?? "unknown",
 		event_type,
+		severity: "low",
 		raw,
 		tags: "[]",
-		flagged: 0
+		flagged: 0,
+		metadata: "{}"
 	};
 }
 
@@ -66,7 +69,7 @@ export default {
 					raw: string;				
 				};
 				const event = normalize(body.raw, body.source);
-				await env.DB.prepare("INSERT INTO events (timestamp, source, src_ip, user, event_type, raw, tags, flagged) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(event.timestamp, event.source, event.src_ip, event.user, event.event_type, event.raw, event.tags, event.flagged).run();
+				await env.DB.prepare("INSERT INTO events (timestamp, source, src_ip, dst_ip, user, event_type, severity, raw, tags, flagged, metadata) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").bind(event.timestamp, event.source, event.src_ip, event.dst_ip, event.user, event.event_type, event.severity, event.raw, event.tags, event.flagged, event.metadata).run();
 				return new Response(JSON.stringify({ success: true }), {
     			headers: { "Content-Type": "application/json" }
 			});	
