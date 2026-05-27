@@ -48,7 +48,7 @@ def generate_ddos_log(lines=5000):
             "Metadata": {"attack_id": "ddos_sim_2026_05"}
         })
         
-    with open("samples/cloudflare_ddos_5k.json", "w") as f:
+    with open("cloudflare_ddos_5k.json", "w") as f:
         json.dump(logs, f, indent=2)
     print(f"Successfully generated a 5,000-line realistic DDoS log profile!")
 
