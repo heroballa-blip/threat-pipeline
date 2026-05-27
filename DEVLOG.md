@@ -21,7 +21,6 @@
 - POST /event now accepts raw + source only, normalizes internally before storing
 - Deliberate decision: port not added to schema — not universal across all log sources, captured in raw field
 - Verified end to end — raw log line in, parsed structured event stored in D1
-- Next: Python collector for Linux auth logs
 
 ## Day 4 — May 16-26, 2026
 - Built linux_auth.py collector
