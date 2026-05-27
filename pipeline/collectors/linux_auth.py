@@ -12,7 +12,7 @@ def send_line(line, worker_url):
 
 def collect_linux_auth_logs():
     worker_url = "https://threat-pipeline.hballa.workers.dev/event"
-    with open("auth.log", "r") as log_file:
+    with open("samples/auth.log", "r") as log_file:
         lines = log_file.readlines()
     
     with ThreadPoolExecutor(max_workers=10) as executor:
