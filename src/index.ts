@@ -17,9 +17,8 @@ function normalize(raw: string,source: string): { timestamp: string; source: str
     // timestamp logic
 	const parts = raw.split(" ");
 	const timestamp = parts[0] + " " + parts[1] + " " + parts[2];
-	const forIndex = parts.indexOf("for");
-	const user = forIndex !== -1 ? parts[forIndex + 1] : null;
-	
+	const fromIndex = parts.indexOf("from");
+	const user = fromIndex !== -1 ? parts[fromIndex - 1] : "unknown";	
 	// ip logic
 	const match = raw.match(/\d+\.\d+\.\d+\.\d+/);
 	const ip = match ? match[0] : null;
