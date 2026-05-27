@@ -3,7 +3,7 @@ import requests
 def collect_linux_auth_logs():
     worker_url = "https://threat-pipeline.hballa.workers.dev/event"
     
-    with open("linux_auth_logs.txt", "r") as log_file:
+    with open("auth.log", "r") as log_file:
         for line in log_file:
             data = {"raw": line.strip(), "source": "linux_auth"}
             try:
