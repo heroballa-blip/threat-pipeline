@@ -34,6 +34,23 @@ function normalize(raw: string,source: string): { timestamp: string; source: str
 	} else {
 		event_type = "unknown"
 	}
+	if (source === "cloudflare_waf") {
+    const parsed = JSON.parse(raw);
+    return {
+        timestamp: parsed.EdgeStartTimestamp ?? "unknown",
+        source,
+        src_ip: parsed.ClientIP ?? "unknown",
+        dst_ip: parsed.ClientRequestHost ?? "unknown",
+        user: "unknown",
+        event_type: parsed.Action ?? "unknown",
+        severity: "low",
+        raw,
+        tags: "[]",
+        flagged: 0,
+        metadata: JSON.stringify(parsed.Metadata ?? {})
+    };
+}
+
 	return {
 		timestamp,
 		source,
@@ -47,6 +64,7 @@ function normalize(raw: string,source: string): { timestamp: string; source: str
 		flagged: 0,
 		metadata: "{}"
 	};
+	
 }
 
 export default {
