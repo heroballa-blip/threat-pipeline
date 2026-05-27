@@ -1,13 +1,14 @@
-Create table events (
-    id integer primary key autoincrement,
-    timestamp text,
-    source text,
-    src_ip text,
-    user text,
-    event_type text,
-    raw text,
-    tags text,
-    flagged integer
+CREATE TABLE events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT,
+    source TEXT,
+    src_ip TEXT,
+    dst_ip TEXT,
+    user TEXT,
+    event_type TEXT,
+    severity TEXT,
+    raw TEXT,
+    tags TEXT,
+    flagged INTEGER,
+    metadata TEXT
 )
-
-INSERT INTO events (timestamp, source, src_ip, user, event_type, raw, tags, flagged) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
