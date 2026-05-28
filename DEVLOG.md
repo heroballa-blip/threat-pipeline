@@ -36,4 +36,9 @@
 - Added dst_ip, severity, metadata columns to schema via ALTER TABLE
 - Updated INSERT statement and normalize() return type for new columns
 - Unified timeline now has 12,121 events across linux_auth and cloudflare_waf sources
-- Next: Timeline query API with filters (Day 6)
+- Added dynamic query filter API to GET /events
+- Filters: ?source=, ?src_ip=, ?from=&to= (date range)
+- Used conditional SQL WHERE clause builder with prepared statements
+- Fixed empty params bug — skip .bind() when no filters provided
+- All three filters verified working against 12,121 event timeline
+- Next: Day 7 — Week 1 review, README update, DEVLOG cleanup
