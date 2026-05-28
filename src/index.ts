@@ -71,13 +71,27 @@ export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		const url = new URL(request.url);
 		const path = url.pathname;
+		const source = url.searchParams.get("source");
+		const src_ip = url.searchParams.get("src_ip");
+		const from = url.searchParams.get("from");
+		const to = url.searchParams.get("to");
 		if (request.method === "GET" && path === "/events")
 			{ 
-				//return new Response("TODO")
-				const result = await env.DB.prepare("SELECT * FROM events").all();
-				return new Response(JSON.stringify(result.results), {
-    			headers: { "Content-Type": "application/json" }
-});
+				let query = "SELECT * FROM events";
+				const params: any[] = [];
+				const conditions: string[] = [];
+
+				if (source) {
+					conditions.push("source = ?");
+					params.push(source);
+				}
+				if (src_ip) {
+					conditions.push("src_ip = ?");
+					params.push(src_ip);
+				}
+				if (conditions.length > 0) {
+					query += " WHERE " + conditions.join(" AND ");
+				}
 		
 			} 
 		else if (request.method  === "POST" && path === "/event") 

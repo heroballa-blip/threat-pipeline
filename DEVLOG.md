@@ -29,7 +29,7 @@
 - Timeline breakdown: 713 failed_login, 557 sudo_command, 190 successful_login, 5661 unknown
 - Normalizer correctly handles "invalid user" lines via fromIndex - 1
 
-## Day 5 — May 27, 2026
+## Day 5 — May 26-27, 2026
 - Created cloudflare_waf.py collector — reads JSON array, threads 10 workers
 - Created generate_mock_ddos.py — generates 5000 realistic WAF events with varied actions/rules
 - Added cloudflare_waf branch to normalize() — parses JSON, extracts ClientIP, Action, EdgeStartTimestamp
