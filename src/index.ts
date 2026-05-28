@@ -89,10 +89,20 @@ export default {
 					conditions.push("src_ip = ?");
 					params.push(src_ip);
 				}
+				if (from && to) {
+				conditions.push("timestamp >= ? AND timestamp <= ?");
+				params.push(from, to);
+				}
 				if (conditions.length > 0) {
 					query += " WHERE " + conditions.join(" AND ");
 				}
-		
+				const stmt = env.DB.prepare(query);
+				const result = params.length > 0 
+				? await stmt.bind(...params).all()
+				: await stmt.all();
+				return new Response(JSON.stringify(result.results), {
+					headers: { "Content-Type": "application/json" }
+				});
 			} 
 		else if (request.method  === "POST" && path === "/event") 
 			{ 
