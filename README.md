@@ -22,7 +22,7 @@ Zero Trust              (In-Progress)
 - IP filter example: https://threat-pipeline.hballa.workers.dev/events?src_ip=185.220.101.238
 
 ## Data Sources
-- Linux auth logs: [Elastic examples dataset](https://github.com/elastic/examples)
+- Linux auth logs: [Elastic examples dataset](https://github.com/elastic/examples/blob/master/Machine%20Learning/Security%20Analytics%20Recipes/suspicious_login_activity/data/auth.log)
 - WAF logs: Simulated DDoS dataset (generated via `generate_mock_ddos.py`)
 
 ### What's Built
